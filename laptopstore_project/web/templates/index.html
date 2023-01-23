@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <style>
+      .banner-image {
+        background-image: url('https://images.unsplash.com/photo-1563118490-a6fbac646b50?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
+        background-size: cover;
+      }
+    </style>
+
+
+<!--banner-->
+	<div class="banner-image w-100 vh-100 d-flex justify-content-center align-items-center">
+		<div class="content text-center">
+			<h1 class="text-white">dj LAPTOP STORE</h1>
+		</div>
+	</div>
+	<p>Banner Image from Unsplash <span><a href="https://unsplash.com/photos/komB8F93618" target="_blank">Stock Photo of Apple Macbook by rupixen</a></span></p>
+	<div class="container my-5 d-grid gap-5">
+		<div class="p-5 border">
+			<h1>Recommend Laptop</h1>
+				<div class="container my-5 d-grid gap-5">
+					<div class="p-5 border">
+							<div class="col-md-12 pad-lr-5">
+								<div class="row">
+									{% for product in laptops %}
+									<div class="col-md-3 col-sm-4 col-xs-6">
+										<div class="product-img">
+												<a href="/productdetail/?query={{product}}"><img src="/{{product.img.image}}" alt="{{product}}" style="width:100%;"></a>
+										</div>
+										
+										<div class="product-body">
+											<div class="col-md-12 pad-lr-5">
+												<a href="/productdetail/?query={{product}}" style="color: black; text-decoration:none;"><h6>{{product}}</h6></a>
+												<p>{{product.cpu}}/{{product.gpu}}/{{product.ram}}/{{product.drive}}/{{product.size}}" <br><h6>{{product.price}}฿</h6></p>
+											</div>
+										</div>
+										
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+
+					</div>
+				</div>
+			<h1>Choose from Trustworthy Brand</h1>
+			<div class="container my-5 d-grid gap-5">
+					<div class="p-5 border">
+							<div class="col-md-12 pad-lr-5">
+								<div class="row">
+									{% for brand in brands %}
+									<div class="col-md-3 col-sm-4 col-xs-6">
+										<div class="product-img">
+												<a href="/productlist/?brand={{brand.id}}"><img src="/{{brand.image}}" alt="{{brand}}" style="width:100%;"></a>
+										</div>
+										
+										<div class="product-body">
+											<div class="col-md-12 pad-lr-5">
+												<a href="/productlist/?brand={{brand.id}}" style="color: black; text-decoration:none;"><h6>{{brand}}</h6></a>
+											</div>
+										</div>
+										
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+
+					</div>
+				</div>
+
+			<h1>Choose from type of use</h1>
+			<div class="container my-5 d-grid gap-5">
+					<div class="p-5 border">
+							<div class="col-md-12 pad-lr-5">
+								<div class="row">
+									{% for usage in usages %}
+									<div class="col-md-3 col-sm-4 col-xs-6">
+										<div class="product-img">
+												<a href="/productlist/?usage={{usage.id}}"><img src="/{{usage.image}}" alt="{{usage}}" style="width:100%;"></a>
+										</div>
+										
+										<div class="product-body">
+											<div class="col-md-12 pad-lr-5">
+												<a href="/productlist/?usage={{usage.id}}" style="color: black; text-decoration:none;"><h6>{{usage}}</h6></a>
+											</div>
+										</div>
+										
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+
+					</div>
+				</div>
+		</div>
+	</div>
+
+
+{% endblock %}

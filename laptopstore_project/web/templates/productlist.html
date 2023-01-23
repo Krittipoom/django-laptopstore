@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>dj! ~ laptop store</title>
+	<link rel="icon" href="{% static '/img/base/dj.png' %}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="{% static '/css/master.css' %}">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+	<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow p-md-3">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/"><img src="{% static '/img/base/dj.png' %}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">dj</a>
+			<button class="navbar-toggler"
+			type="button"
+			data-bs-toggle="collapse"
+			data-bs-target="#navbarTogglerDemo03"
+			aria-controls="navbarTogglerDemo03"
+			aria-expanded="false"
+			aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active text-white" aria-current="page" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-white" href="/productlist">All Laptop</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-white" href="/">About</a>
+					</li>
+				</ul>
+				<form class="d-flex" role="search">
+					<input class="form-control me-2" type="search" name="title" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+		</div>
+	</nav>
+	<br><br>
+	<div class="filter-section">
+		<div class="container my-5 d-grid gap-5">
+			<form method="GET">
+  			<label>Search for a laptop:</label>
+  			<input type="text" name="title">
+  			<br>
+			  <label>Filter by brand:</label>
+			  {% for brand in brands %}
+			    <input type="checkbox" name="brand" value="{{ brand.pk }}"> {{ brand.title }}
+			  {% endfor %}
+			  <br>
+			  <label>Filter by CPU brand:</label>
+			  {% for cpubrand in cpubrands %}
+			    <input type="checkbox" name="cpubrand" value="{{ cpubrand.pk }}"> {{ cpubrand.title }}
+			  {% endfor %}
+			  <br>
+			  <label>Filter by GPU brand:</label>
+			  {% for gpubrand in gpubrands %}
+			    <input type="checkbox" name="gpubrand" value="{{ gpubrand.pk }}"> {{ gpubrand.title }}
+			  {% endfor %}
+			  <br>
+			  <label>Filter by usage:</label>
+			  {% for usage in usages %}
+			    <input type="checkbox" name="usage" value="{{ usage.pk }}"> {{ usage.title }}
+			  {% endfor %}
+			  <br>
+			  <label>Filter by RAM:</label>
+			  {% for ram in rams %}
+			    <input type="checkbox" name="ram" value="{{ ram.pk }}"> {{ ram.title }}
+			  {% endfor %}
+			  <br>
+			  <label>Filter by drive:</label>
+			  {% for drive in drives %}
+			    <input type="checkbox" name="drive" value="{{ drive.pk }}"> {{ drive.title }}
+			  {% endfor %}
+			  <br>
+			  <label>Filter by size:</label>
+			  {% for size in sizes %}
+			    <input type="checkbox" name="size" value="{{ size.pk }}"> {{ size.title }}
+			  {% endfor %}
+			  <br>
+			  <label>Filter by display:</label>
+			  {% for display in displays %}
+			    <input type="checkbox" name="display" value="{{ display.pk }}"> {{ display.title }}
+			  {% endfor %}
+			  <br>
+			  <label>Filter by price:</label>
+			  <div class="slider">
+			  	<div class="range-slider">
+			  		<span class="rangeValues"></span>
+			  		<input name="min_price" value="8000" min="8000" max="100000" step="500" type="range">
+			  		<input name="max_price" value="100000" min="8000" max="100000" step="500" type="range">
+			  	</div>
+			  </div>
+			  <script>
+				  function getVals(){
+				  // Get slider values
+				  let parent = this.parentNode;
+				  let slides = parent.getElementsByTagName("input");
+				    let slide1 = parseFloat( slides[0].value );
+				    let slide2 = parseFloat( slides[1].value );
+				  // Neither slider will clip the other, so make sure we determine which is larger
+				  if( slide1 > slide2 ){ let tmp = slide2; slide2 = slide1; slide1 = tmp; }
+				  
+				  let displayElement = parent.getElementsByClassName("rangeValues")[0];
+				      displayElement.innerHTML =  slide1 + "฿ - " + slide2 + "฿";
+				}
+
+				window.onload = function(){
+				  // Initialize Sliders
+				  let sliderSections = document.getElementsByClassName("range-slider");
+				      for( let x = 0; x < sliderSections.length; x++ ){
+				        let sliders = sliderSections[x].getElementsByTagName("input");
+				        for( let y = 0; y < sliders.length; y++ ){
+				          if( sliders[y].type ==="range" ){
+				            sliders[y].oninput = getVals;
+				            // Manually trigger event first time to display values
+				            sliders[y].oninput();
+				          }
+				        }
+				      }
+				}
+				</script>
+				<input type="submit" value="Filter">
+			</div>
+		</div>
+	</div>
+	<div class="product-list-section">
+		<div class="container my-5 d-grid gap-5">
+			<div class="p-5 border">
+					<div class="col-md-12 pad-lr-5">
+						<div class="row">
+							{% for product in laptops %}
+							<div class="col-md-3 col-sm-4 col-xs-6">
+								<div class="product-img">
+										<a href="/productdetail/?query={{product}}"><img src="/{{product.img.image}}" alt="{{product}}" style="width:100%;"></a>
+								</div>
+								<div class="product-body">
+									<div class="col-md-12 pad-lr-5">
+										<a href="/productdetail/?query={{product}}" style="color: black; text-decoration:none;"><h6>{{product}}</h6></a>
+										<p>{{product.cpu}}/{{product.gpu}}/{{product.ram}}/{{product.drive}}/{{product.size}}" <br><h6>{{product.price}}฿</h6></p>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

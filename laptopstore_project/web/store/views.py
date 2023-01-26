@@ -80,7 +80,7 @@ def product_list(request):
     if selected_sizes:
         laptops = laptops.filter(size__pk__in=selected_sizes)
     if selected_displays:
-        laptops = laptops.filter(display__pk__in=selected_displays)
+        laptops = laptops.filter(disp__pk__in=selected_displays)
     if min_price or max_price:
         laptops = laptops.filter(price__gte=min_price, price__lte=max_price)
 
